@@ -2,13 +2,13 @@
 
 namespace App\Supplier;
 
-use Symfony\Component\Serializer\Encoder\YamlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class Supplier3 extends SupplierAbstract
 {
     public static function getName(): string
     {
-        return 'supplier1';
+        return 'supplier3';
     }
 
     public static function getResponseType(): string
@@ -16,14 +16,21 @@ class Supplier3 extends SupplierAbstract
         return 'yaml';
     }
 
+    /**
+     * @return array
+     * @throws \Symfony\Component\Serializer\Exception\UnexpectedValueException
+     */
     protected function parseResponse(): array
     {
-        $encoder = new YamlEncoder();
-        return $encoder->decode($this->getResponse(), self::getResponseType());
+        $encoder = new JsonEncoder();
+        return $encoder->decode($this->getResponse(), self::getResponseType())['list'];
     }
 
+    /**
+     * @return string
+     */
     protected function getResponse(): string
     {
-        return file_get_contents('http://localhost/suppliers/supplier3.yaml');
+        return file_get_contents('https://127.0.0.1:8000/suppliers/supplier3.json');
     }
 }

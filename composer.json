@@ -1,5 +1,7 @@
 {
     "type": "project",
+    "name": "kbedn/php-standard-develop",
+    "description": "php-standard-develop",
     "license": "proprietary",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -19,6 +21,10 @@
         "symfony/phpunit-bridge": "^5.2",
         "symfony/serializer": "5.2.*",
         "symfony/yaml": "5.2.*"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
     },
     "config": {
         "optimize-autoloader": true,

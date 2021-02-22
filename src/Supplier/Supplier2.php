@@ -11,19 +11,30 @@ class Supplier2 extends SupplierAbstract
         return 'supplier2';
     }
 
-    public static function getResponseType(): string
-    {
-        return 'xml';
-    }
-
+    /**
+     * @return array
+     * @throws \Symfony\Component\Serializer\Exception\UnexpectedValueException
+     */
     protected function parseResponse(): array
     {
         $encoder = new XmlEncoder();
-        return $encoder->decode($this->getResponse(), self::getResponseType());
+
+        return $encoder->decode($this->getResponse(), self::getResponseType())['item'];
     }
 
+    /**
+     * @return string
+     */
     protected function getResponse(): string
     {
-        return file_get_contents('http://localhost/suppliers/supplier2.xml');
+        return file_get_contents('https://127.0.0.1:8000/suppliers/supplier2.xml');
+    }
+
+    /**
+     * @return string
+     */
+    public static function getResponseType(): string
+    {
+        return 'xml';
     }
 }

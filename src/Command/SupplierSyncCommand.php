@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Exception\InvalidParserException;
+use App\Supplier\SupplierAbstract;
 use InvalidArgumentException;
 use Symfony\Component\Console\{
     Helper\Table,
@@ -14,17 +14,13 @@ use Symfony\Component\Console\{
 };
 use App\Supplier\FactoryInterface as SupplierFactoryInterface;
 
-class SupplierSyncCommand extends Command
+final class SupplierSyncCommand extends Command
 {
     protected static $defaultName = 'divante:supplier-sync';
 
     /** @var SupplierFactoryInterface  */
     private SupplierFactoryInterface $supplierFactory;
 
-    /**
-     * @param SupplierFactoryInterface $supplierFactory
-     * @throws \Symfony\Component\Console\Exception\LogicException
-     */
     public function __construct(SupplierFactoryInterface $supplierFactory)
     {
         parent::__construct(self::$defaultName);
@@ -42,13 +38,6 @@ class SupplierSyncCommand extends Command
             );
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -58,14 +47,15 @@ class SupplierSyncCommand extends Command
 
         try {
             //#TODO Get the products
-            $this->supplierFactory->getSupplier($name);
-            $products = [];
+            /** @var SupplierAbstract $supplier */
+            $supplier = $this->supplierFactory->getSupplier($name);
+            $products =$supplier->getProducts();
 
             $table = new Table($output);
             $table->setHeaders(array('ID', 'Name', 'Desc'))->setRows($products);
             $table->render();
 
-        } catch (InvalidArgumentException | InvalidParserException $exception) {
+        } catch (InvalidArgumentException $exception) {
             $output->writeln('<!--suppress HtmlUnknownTag, HtmlUnknownTag -->
 <error>' . $exception->getMessage() . '</error>');
         }
