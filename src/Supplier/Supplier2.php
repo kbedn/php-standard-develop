@@ -18,8 +18,13 @@ class Supplier2 extends SupplierAbstract
     protected function parseResponse(): array
     {
         $encoder = new XmlEncoder();
+        $products = $encoder->decode($this->getResponse(), self::getResponseType())['item'];
 
-        return $encoder->decode($this->getResponse(), self::getResponseType())['item'];
+        if ($products) {
+            $this->dispatchEvent($products);
+        }
+
+        return $products;
     }
 
     /**

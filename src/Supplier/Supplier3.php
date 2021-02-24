@@ -2,6 +2,8 @@
 
 namespace App\Supplier;
 
+use App\Event\GetProductsEvent;
+use App\Event\IntegrationEvents;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class Supplier3 extends SupplierAbstract
@@ -23,7 +25,13 @@ class Supplier3 extends SupplierAbstract
     protected function parseResponse(): array
     {
         $encoder = new JsonEncoder();
-        return $encoder->decode($this->getResponse(), self::getResponseType())['list'];
+        $products = $encoder->decode($this->getResponse(), self::getResponseType())['list'];
+
+        if ($products) {
+            $this->dispatchEvent($products);
+        }
+
+        return $products;
     }
 
     /**

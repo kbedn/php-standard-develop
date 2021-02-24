@@ -49,7 +49,8 @@ final class SupplierSyncCommand extends Command
             //#TODO Get the products
             /** @var SupplierAbstract $supplier */
             $supplier = $this->supplierFactory->getSupplier($name);
-            $products =$supplier->getProducts();
+            $products = $supplier->getProducts();
+
 
             $table = new Table($output);
             $table->setHeaders(array('ID', 'Name', 'Desc'))->setRows($products);
