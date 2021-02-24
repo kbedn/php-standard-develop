@@ -7,7 +7,6 @@ use App\Listener\ProductsListener;
 use InvalidArgumentException;
 use ReflectionClass;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
 class Factory implements FactoryInterface
 {

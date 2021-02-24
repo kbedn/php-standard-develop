@@ -12,7 +12,7 @@ class ProductsListener
 {
     public const FILENAME_PATH = './var/log/supplier.log';
 
-    /** @var LoggerInterface|Logger  */
+    /** @var LoggerInterface */
     protected LoggerInterface $logger;
 
     /**
