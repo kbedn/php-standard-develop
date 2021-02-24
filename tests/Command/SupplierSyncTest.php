@@ -8,7 +8,12 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class SupplierSyncTest extends KernelTestCase
 {
-    public function testExecute()
+    /**
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \Symfony\Component\Console\Exception\CommandNotFoundException
+     */
+    final public function testExecute(): void
     {
         $kernel = static::createKernel();
         $application = new Application($kernel);
